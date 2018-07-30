@@ -41,13 +41,13 @@ def sign_up(request):
             form.save()
             user = authenticate(
                 firstname=form.cleaned_data['firstname'],
-                password=form.cleaned_data['password1']
+                password=form.cleaned_data['password']
             )
-            login(request, user)
-            messages.success(
-                request,
-                "You're now a user! You've been signed in, too."
-            )
+            #login(request, user)
+            #messages.success(
+            #    request,
+            #    "You're now a user! You've been signed in, too."
+            #)
             return HttpResponseRedirect(reverse('home'))  # TODO: go to profile
     return render(request, 'accounts/sign_up.html', {'form': form})
 
