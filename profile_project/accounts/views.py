@@ -1,15 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from . import forms
+
 
 def sign_in(request):
-    form = AuthenticationForm()
+    form = forms.AuthenticationForm()
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = forms.AuthenticationForm(data=request.POST)
         if form.is_valid():
             if form.user_cache is not None:
                 user = form.user_cache
@@ -32,9 +34,9 @@ def sign_in(request):
 
 
 def sign_up(request):
-    form = UserCreationForm()
+    form = forms.UserCreationForm()
     if request.method == 'POST':
-        form = UserCreationForm(data=request.POST)
+        form = forms.UserCreationForm(data=request.POST)
         if form.is_valid():
             form.save()
             user = authenticate(
