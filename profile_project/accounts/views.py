@@ -40,7 +40,7 @@ def sign_up(request):
         if form.is_valid():
             form.save()
             user = authenticate(
-                username=form.cleaned_data['username'],
+                firstname=form.cleaned_data['firstname'],
                 password=form.cleaned_data['password1']
             )
             login(request, user)

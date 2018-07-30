@@ -3,7 +3,8 @@ from django import forms
 class UserCreationForm(forms.Form):
 	firstname = forms.CharField()
 	lastname = forms.CharField()
-	email = forms.EmailField()
+	email1 = forms.EmailField()
+	email2 = forms.EmailField()
 	password = forms.CharField()
 	birthdate = forms.DateField()
 	bio = forms.CharField(widget=forms.Textarea)
@@ -12,4 +13,5 @@ class UserCreationForm(forms.Form):
 
 class AuthenticationForm(forms.Form):
 	email = forms.EmailField()
-	password = forms.CharField()
+	password1 = forms.CharField()
+	password2 = forms.CharField()
