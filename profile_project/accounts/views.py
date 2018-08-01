@@ -9,9 +9,9 @@ from . import forms
 
 
 def sign_in(request):
-    form = forms.AuthenticationForm()
+    form = AuthenticationForm()
     if request.method == 'POST':
-        form = forms.AuthenticationForm(data=request.POST)
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             if form.user_cache is not None:
                 user = form.user_cache
