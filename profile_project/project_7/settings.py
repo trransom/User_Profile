@@ -83,6 +83,7 @@ DATABASES = {
 }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -101,6 +102,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

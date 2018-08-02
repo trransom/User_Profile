@@ -7,16 +7,16 @@ def min_length(value):
 
 # Create your models here.
 class Profile(models.Model):
-	firstname = models.CharField(max_length=25)
-	lastname = models.CharField(max_length=25)
-	username = models.CharField(max_length=50, unique=True)
+	first_name = models.CharField(max_length=25)
+	last_name = models.CharField(max_length=25)
+	username = models.CharField(max_length=50)
 	email = models.EmailField()
 	password = models.CharField(max_length=25)
 	birthdate = models.DateField()
 	bio = models.TextField(validators=[min_length])
-	avatar = models.BooleanField(blank=True)
+	avatar = models.NullBooleanField(null=True)
 	
 	
 	def __str__(self):
-		return self.firstname
+		return self.first_name
 		
