@@ -36,23 +36,17 @@ def sign_in(request):
 
 
 def sign_up(request):
-    form = forms.UserCreationForm()
+    form = forms.CreateUserForm()
     if request.method == 'POST':
-        form = forms.UserCreationForm(data=request.POST)
+        form = forms.CreateUserForm(data=request.POST)
         if form.is_valid():
             form.save()
-#            test = models.Profile.objects.get(first_name=form.cleaned_data['first_name'])
-#            print(test.first_name)
-#            print(test.last_name)
-#            print(test.email)
-#            print(test.password)
+            print(form.cleaned_data['username'])
+            print(form.cleaned_data['password1'])
             user = authenticate(
-                first_name=form.cleaned_data['first_name'],
-                last_name=form.cleaned_data['last_name'],
-                email=form.cleaned_data['email'],
-                password=form.cleaned_data['password']
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1']
             )
-            print(user)
             login(request, user)
             messages.success(
                 request,
@@ -60,6 +54,32 @@ def sign_up(request):
             )
             return HttpResponseRedirect(reverse('accounts:profile_view'))  # TODO: go to profile
     return render(request, 'accounts/sign_up.html', {'form': form})
+
+
+#def sign_up(request):
+#    form = forms.UserCreationForm()
+#    if request.method == 'POST':
+#        form = forms.UserCreationForm(data=request.POST)
+#        if form.is_valid():
+#            form.save()
+#            test = models.Profile.objects.get(first_name=form.cleaned_data['first_name'])
+#            print(test.first_name)
+#            print(test.last_name)
+#            print(test.email)
+#            print(test.password)
+#            user = authenticate(
+#                first_name=form.cleaned_data['first_name'],
+#                last_name=form.cleaned_data['last_name'],
+#                email=form.cleaned_data['email']
+#            )
+#            print(user)
+#            login(request, user)
+#            messages.success(
+#                request,
+#                "You're now a user! You've been signed in, too."
+#            )
+#            return HttpResponseRedirect(reverse('accounts:profile_view'))  # TODO: go to profile
+#    return render(request, 'accounts/sign_up.html', {'form': form})
 
 
 def sign_out(request):

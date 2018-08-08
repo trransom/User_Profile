@@ -1,4 +1,13 @@
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
+
+class User(AbstractBaseUser):
+	first_name = models.CharField(max_length=25)
+	last_name = models.CharField(max_length=25)
+	username = models.CharField(max_length=50)
+	email = models.EmailField()
+	
+	USERNAME_FIELD = 'first_name'
 
 def min_length(value):
 	if len(value) < 10:
@@ -15,6 +24,9 @@ class Profile(models.Model):
 	birthdate = models.DateField()
 	bio = models.TextField(validators=[min_length])
 	avatar = models.NullBooleanField(null=True)
+	
+	USERNAME_FIELD = 'email'
+
 	
 	
 	def __str__(self):

@@ -1,12 +1,13 @@
 from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 
-from .models import Profile
+from . import models
 
-class UserCreationForm(forms.ModelForm):
+class CreateUserForm(UserCreationForm):
 	class Meta:
-		model = Profile
-		fields = ['first_name', 'last_name', 'email', 'password', 'birthdate']
-		exclude = ['username', 'bio', 'avatar']
+		model = models.User
+		fields = ['username']
 
 
 #class AuthenticationForm(forms.ModelForm):
