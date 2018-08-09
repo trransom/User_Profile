@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 import pdb
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from . import forms
 from . import models
@@ -34,15 +35,13 @@ def sign_in(request):
                 )
     return render(request, 'accounts/sign_in.html', {'form': form})
 
-
+@ensure_csrf_cookie
 def sign_up(request):
     form = forms.CreateUserForm()
     if request.method == 'POST':
         form = forms.CreateUserForm(data=request.POST)
         if form.is_valid():
             form.save()
-            print(form.cleaned_data['username'])
-            print(form.cleaned_data['password1'])
             user = authenticate(
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password1']
@@ -52,7 +51,7 @@ def sign_up(request):
                 request,
                 "You're now a user! You've been signed in, too."
             )
-            return HttpResponseRedirect(reverse('accounts:profile_view'))  # TODO: go to profile
+            return HttpResponseRedirect(reverse('accounts:profile_view'))# TODO: go to profile
     return render(request, 'accounts/sign_up.html', {'form': form})
 
 
@@ -87,6 +86,6 @@ def sign_out(request):
     messages.success(request, "You've been signed out. Come back soon!")
     return HttpResponseRedirect(reverse('home'))
 	
-def profile_view(request, pk):
-	user = get_object_or_404(models.User, pk=pk)
+def profile_view(request, pk=None):
+	user = get_object_or_404(models.User, pk=45)
 	return render(request, 'accounts/display_profile.html', {'user': user})
