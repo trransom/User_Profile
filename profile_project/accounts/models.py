@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, UserManager
 from django.db import models
+from django.db.models.signals import post_save
 
 #https://stackoverflow.com/questions/42075882/manager-object-has-no-attribute-get-by-natural-key?rq=1
 class UserAccountManager(BaseUserManager):
@@ -34,18 +36,13 @@ def min_length(value):
 
 # Create your models here.
 class Profile(models.Model):
-	first_name = models.CharField(max_length=25)
-	last_name = models.CharField(max_length=25)
-	username = models.CharField(max_length=50, unique=True)
-	email = models.EmailField()
-	password = models.CharField(max_length=25)
-	birthdate = models.DateField()
-	bio = models.TextField(validators=[min_length])
+	user = models.OneToOneField('User', on_delete=models.CASCADE)
+	birthdate = models.DateField(null=True)
+	bio = models.TextField(validators=[min_length], null=True)
 	avatar = models.NullBooleanField(null=True)
-	
-	USERNAME_FIELD = 'username'
 	
 	
 	def __str__(self):
 		return self.first_name
 		
+

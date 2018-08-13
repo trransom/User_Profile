@@ -8,11 +8,9 @@ class CreateUserForm(UserCreationForm):
 	class Meta:
 		model = models.User
 		fields = ['username']
+		
+class UpdateUserForm(forms.ModelForm):
+	class Meta:
+		model = models.User
+		fields = ['first_name', 'last_name', 'username', 'email']
 
-
-#class AuthenticationForm(forms.ModelForm):
-#	class Meta:
-#		model = Profile
-#		fields = ['username', 'password']
-#		exclude = ['firstname', 'lastname', 'email', 'birthdate',
-#					'bio', 'avatar']

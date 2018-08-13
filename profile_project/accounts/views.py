@@ -21,7 +21,7 @@ def sign_in(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(
-                        reverse('profile_view')  # TODO: go to profile
+                        reverse('accounts:profile_view')  # TODO: go to profile
                     )
                 else:
                     messages.error(
@@ -51,41 +51,30 @@ def sign_up(request):
                 request,
                 "You're now a user! You've been signed in, too."
             )
+            profile = models.Profile(user=user)
+            profile.save()
+            if profile: print('profile created')
             return HttpResponseRedirect(reverse('accounts:profile_view'))# TODO: go to profile
     return render(request, 'accounts/sign_up.html', {'form': form})
-
-
-#def sign_up(request):
-#    form = forms.UserCreationForm()
-#    if request.method == 'POST':
-#        form = forms.UserCreationForm(data=request.POST)
-#        if form.is_valid():
-#            form.save()
-#            test = models.Profile.objects.get(first_name=form.cleaned_data['first_name'])
-#            print(test.first_name)
-#            print(test.last_name)
-#            print(test.email)
-#            print(test.password)
-#            user = authenticate(
-#                first_name=form.cleaned_data['first_name'],
-#                last_name=form.cleaned_data['last_name'],
-#                email=form.cleaned_data['email']
-#            )
-#            print(user)
-#            login(request, user)
-#            messages.success(
-#                request,
-#                "You're now a user! You've been signed in, too."
-#            )
-#            return HttpResponseRedirect(reverse('accounts:profile_view'))  # TODO: go to profile
-#    return render(request, 'accounts/sign_up.html', {'form': form})
 
 
 def sign_out(request):
     logout(request)
     messages.success(request, "You've been signed out. Come back soon!")
     return HttpResponseRedirect(reverse('home'))
+    
+def profile_view(request):
+    user = request.user
+    return render(request, 'accounts/display_profile.html', {'user': user})
 	
-def profile_view(request, pk=None):
-	user = get_object_or_404(models.User, pk=45)
-	return render(request, 'accounts/display_profile.html', {'user': user})
+def edit_profile(request):
+	user = request.user
+	user_form = forms.UpdateUserForm(instance=user)
+	if request.method == 'POST':
+		user_form = forms.UpdateUserForm(instance=user, data=request.POST)
+		
+		if user_form.is_valid():
+			user_form.save()
+			messages.success(request, 'Your profile was successfully updated!')
+			return HttpResponseRedirect(reverse('accounts:profile'))
+	return render(request, 'accounts/edit_profile.html', {'user_form': user_form})
