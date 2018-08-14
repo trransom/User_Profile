@@ -13,4 +13,9 @@ class UpdateUserForm(forms.ModelForm):
 	class Meta:
 		model = models.User
 		fields = ['first_name', 'last_name', 'username', 'email']
+		
+class UpdateProfileForm(forms.ModelForm):
+	class Meta:
+		model = models.Profile
+		fields = ['birthdate', 'bio']
 

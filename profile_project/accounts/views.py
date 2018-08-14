@@ -65,16 +65,20 @@ def sign_out(request):
     
 def profile_view(request):
     user = request.user
+    test = models.Profile.objects.get(id=1)
+    print(test.bio)
     return render(request, 'accounts/display_profile.html', {'user': user})
 	
 def edit_profile(request):
 	user = request.user
 	user_form = forms.UpdateUserForm(instance=user)
+	profile_form = forms.UpdateProfileForm(instance=user)
 	if request.method == 'POST':
 		user_form = forms.UpdateUserForm(instance=user, data=request.POST)
-		
-		if user_form.is_valid():
+		profile_form = forms.UpdateProfileForm(instance=user.profile, data=request.POST)
+		if user_form.is_valid() and profile_form.is_valid():
 			user_form.save()
+			profile_form.save()
 			messages.success(request, 'Your profile was successfully updated!')
-			return HttpResponseRedirect(reverse('accounts:profile'))
-	return render(request, 'accounts/edit_profile.html', {'user_form': user_form})
+			return HttpResponseRedirect(reverse('accounts:profile_view'))
+	return render(request, 'accounts/edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
