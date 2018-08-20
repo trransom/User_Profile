@@ -4,6 +4,7 @@
 
 {% block body %}
 <form method="POST" action="{% url 'accounts:edit_profile' %}">
+    <li><a href="{% url 'accounts:change_password' %}">Change Password</a></li>
     {% csrf_token %}
     {{ user_form.as_p }}
     {{ profile_form.as_p }}

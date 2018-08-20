@@ -39,8 +39,7 @@ class Profile(models.Model):
 	user = models.OneToOneField('User', on_delete=models.CASCADE)
 	birthdate = models.DateField(null=True)
 	bio = models.TextField(validators=[min_length], null=True)
-	avatar = models.NullBooleanField(null=True)
-	
+	avatar = models.ImageField(upload_to='', null=True)
 	
 	def __str__(self):
 		return self.user.first_name

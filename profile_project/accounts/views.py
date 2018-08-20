@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -65,8 +65,6 @@ def sign_out(request):
     
 def profile_view(request):
     user = request.user
-    test = models.Profile.objects.get(id=1)
-    print(test.bio)
     return render(request, 'accounts/display_profile.html', {'user': user})
 	
 def edit_profile(request):
@@ -82,3 +80,14 @@ def edit_profile(request):
 			messages.success(request, 'Your profile was successfully updated!')
 			return HttpResponseRedirect(reverse('accounts:profile_view'))
 	return render(request, 'accounts/edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+	
+def change_password(request):
+	form = forms.PasswordChangeForm(user=request.user)
+	if request.method == 'POST':
+		form = forms.PasswordChangeForm(user=request.user, data=request.POST)
+		if form.is_valid():
+			form.save()
+			update_session_auth_hash(request, form.user)
+			messages.success(request, 'Your password was updated!')
+			return HttpResponseRedirect(reverse('accounts:profile_view'))
+	return render(request, 'accounts/password.html', {'form': form})
