@@ -5,7 +5,6 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 import pdb
-from django.views.decorators.csrf import ensure_csrf_cookie
 
 from . import forms
 from . import models
