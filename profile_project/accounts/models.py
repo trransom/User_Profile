@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, UserManager
 from django.db import models
 from django.db.models.signals import post_save
+from smartfields import fields
 
 #https://stackoverflow.com/questions/42075882/manager-object-has-no-attribute-get-by-natural-key?rq=1
 class UserAccountManager(BaseUserManager):
@@ -20,10 +21,10 @@ class UserAccountManager(BaseUserManager):
 		return user
 
 class User(AbstractBaseUser):
-	first_name = models.CharField(max_length=25)
-	last_name = models.CharField(max_length=25)
+	first_name = models.CharField(max_length=25, blank=True)
+	last_name = models.CharField(max_length=25, blank=True)
 	username = models.CharField(max_length=50, unique=True)
-	email = models.EmailField()
+	email = models.EmailField(blank=True)
 	
 	objects = UserAccountManager()
 	
@@ -34,12 +35,12 @@ def min_length(value):
 		raise ValidationError('Entered field must be ' +
 								'longer than 10 characters.')
 
-# Create your models here.
 class Profile(models.Model):
 	user = models.OneToOneField('User', on_delete=models.CASCADE)
-	birthdate = models.DateField(null=True)
-	bio = models.TextField(validators=[min_length], null=True)
-	avatar = models.ImageField(upload_to='', null=True)
+	birthdate = models.DateField(blank=True, null=True)
+	bio = models.TextField(validators=[min_length], blank=True, null=True)
+	#https://django-smartfields.readthedocs.io/en/latest/
+	avatar = models.ImageField(upload_to='avatar_photos/', blank=True, null=True)
 	
 	def __str__(self):
 		return self.user.first_name

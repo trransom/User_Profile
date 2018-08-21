@@ -73,7 +73,7 @@ def edit_profile(request):
 	profile_form = forms.UpdateProfileForm(instance=user)
 	if request.method == 'POST':
 		user_form = forms.UpdateUserForm(instance=user, data=request.POST)
-		profile_form = forms.UpdateProfileForm(instance=user.profile, data=request.POST)
+		profile_form = forms.UpdateProfileForm(instance=user.profile, data=request.POST, files=request.FILES)
 		if user_form.is_valid() and profile_form.is_valid():
 			user_form.save()
 			profile_form.save()

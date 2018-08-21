@@ -17,13 +17,9 @@ class UpdateUserForm(forms.ModelForm):
 class UpdateProfileForm(forms.ModelForm):
 	class Meta:
 		model = models.Profile
-		fields = ['birthdate', 'bio']
+		fields = ['birthdate', 'bio', 'avatar']
 		
 class PasswordChangeForm(PasswordChangeForm):
-	
-#	password1 = forms.CharField(label='New Password')
-#	password2 = forms.CharField(label='Confirm Password')
-	
 	class Meta:
 		model = models.User
 		fields = ['password1', 'password2']
