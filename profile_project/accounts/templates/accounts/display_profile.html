@@ -3,23 +3,47 @@
 
 {% block body %}
 {% csrf_token %}
-<div class="grid-75">
-	<h1>Your freaking awesome profile!</h1>
-	<h2>Profile Picture</h2>
+<div class="grid-100">
+	<h1>Your awesome profile!</h1>
+	<p>  </p>
+	<h3>Profile Picture</h3>
 	{% if user.profile.avatar %}
-		<img src="{{ user.profile.avatar.url }}">
+	<img src="{{ user.profile.avatar.url }}">
+	{% else %}
+	<em>Edit your profile to upload a profile picture!</em>
+	<p>  </p>
 	{% endif %}
-	<h2>Username</h2>
+	<h3>Username</h3>
 	<p>{{ user.username }}</p>
 	<h3>First Name</h3>
+	{% if user.first_name %}
 	<p>{{ user.first_name }}</p>
-	<h4>Last Name</h4>
+	{% else %}
+	<em>Edit your profile to add your first name!</em>
+	<p>  </p>
+	{% endif %}
+	<h3>Last Name</h3>
+	{% if user.last_name %}
 	<p>{{ user.last_name }}</p>
-	<h5>Email</h5>
+	{% else %}
+	<em>Edit your profile to add your last name!</em>
+	<p>  </p>
+	{% endif %}
+	<h3>Email</h3>
 	<p>{{ user.email }}</p>
-	<h6>Date of Birth</h6>
+	<h3>Date of Birth</h3>
+	{% if user.profile.birthdate %}
 	<p>{{ user.profile.birthdate }}</p>
-	<h7>Biography</h7>
+	{% else %}
+	<em>Edit your profile to add your birth date!</em>
+	<p>  </p>
+	{% endif %}
+	<h3>Biography</h3>
+	{% if user.profile.bio %}
 	<p>{{ user.profile.bio }}</p>
+	{% else %}
+	<em>Edit your profile to add your biography!</em>
+	<p>  </p>
+	{% endif %}
 </div>
 {% endblock %}
