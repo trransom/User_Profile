@@ -10,8 +10,8 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from . import forms
 from . import models
 
-
 def sign_in(request):
+    '''View for the sign-in page.'''
     form = AuthenticationForm()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -35,8 +35,8 @@ def sign_in(request):
                 )
     return render(request, 'accounts/sign_in.html', {'form': form})
 
-@ensure_csrf_cookie
 def sign_up(request):
+    '''View for the sign-up page.'''
     form = forms.CreateUserForm()
     if request.method == 'POST':
         form = forms.CreateUserForm(data=request.POST)
@@ -59,18 +59,21 @@ def sign_up(request):
 
 
 def sign_out(request):
+    '''View for the sign-out page.'''
     logout(request)
     messages.success(request, "You've been signed out. Come back soon!")
     return HttpResponseRedirect(reverse('home'))
     
 def profile_view(request):
+    '''View to display the user's profile.'''
     user = request.user
     return render(request, 'accounts/display_profile.html', {'user': user})
-	
+    
 def edit_profile(request):
+	'''View to display the edit form.'''
 	user = request.user
 	user_form = forms.UpdateUserForm(instance=user)
-	profile_form = forms.UpdateProfileForm(instance=user)
+	profile_form = forms.UpdateProfileForm(instance=user.profile)
 	if request.method == 'POST':
 		user_form = forms.UpdateUserForm(instance=user, data=request.POST)
 		profile_form = forms.UpdateProfileForm(instance=user.profile, data=request.POST, files=request.FILES)
@@ -82,6 +85,7 @@ def edit_profile(request):
 	return render(request, 'accounts/edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
 	
 def change_password(request):
+	'''View to display the form for changing passwords.'''
 	form = forms.PasswordChangeForm(user=request.user)
 	if request.method == 'POST':
 		form = forms.PasswordChangeForm(user=request.user, data=request.POST)

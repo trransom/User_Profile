@@ -38,7 +38,7 @@ def min_length(value):
 class Profile(models.Model):
 	user = models.OneToOneField('User', on_delete=models.CASCADE)
 	birthdate = models.DateField(blank=True, null=True)
-	bio = models.TextField(validators=[min_length], blank=True, null=True)
+	bio = models.TextField(blank=True, null=True)
 	#https://django-smartfields.readthedocs.io/en/latest/
 	avatar = models.ImageField(upload_to='avatar_photos/', blank=True, null=True)
 	
