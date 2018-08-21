@@ -95,3 +95,4 @@ def change_password(request):
 			messages.success(request, 'Your password was updated!')
 			return HttpResponseRedirect(reverse('accounts:profile_view'))
 	return render(request, 'accounts/password.html', {'form': form})
+	

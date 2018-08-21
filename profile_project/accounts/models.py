@@ -6,6 +6,7 @@ from smartfields import fields
 
 #https://stackoverflow.com/questions/42075882/manager-object-has-no-attribute-get-by-natural-key?rq=1
 class UserAccountManager(BaseUserManager):
+	'''Model for the account manager relation.'''
 	def create_user(self, first_name, last_name, email,
 					username=None, password=None):
 		if not email:
@@ -21,6 +22,7 @@ class UserAccountManager(BaseUserManager):
 		return user
 
 class User(AbstractBaseUser):
+	'''Model for the User relation.'''
 	first_name = models.CharField(max_length=25, blank=True)
 	last_name = models.CharField(max_length=25, blank=True)
 	username = models.CharField(max_length=50, unique=True)
@@ -36,6 +38,8 @@ def min_length(value):
 								'longer than 10 characters.')
 
 class Profile(models.Model):
+	'''Model for the user profile. Maintains a 'one-to-one'
+	relationship with the User relation.'''
 	user = models.OneToOneField('User', on_delete=models.CASCADE)
 	birthdate = models.DateField(blank=True, null=True)
 	bio = models.TextField(blank=True, null=True)
@@ -45,4 +49,3 @@ class Profile(models.Model):
 	def __str__(self):
 		return self.user.first_name
 		
-
