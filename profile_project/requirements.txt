@@ -20,7 +20,7 @@ MarkupSafe==1.0
 nltk==3.3
 numpy==1.14.5
 peewee==3.5.0
-Pillow==5.2.0
+Pillow==8.2.0
 pipreqs==0.4.9
 psycopg2==2.7.4
 pycparser==2.18
